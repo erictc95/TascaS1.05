@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class DirectoryOrder {
-    private String directoryPath;
-    private static final String resultPath = "result.txt";
+    private final String directoryPath;
+    private static final String resultPath = "src/main/java/level1/exercise3/result.txt";
 
     public DirectoryOrder(String directoryPath) {
         this.directoryPath = directoryPath;
@@ -23,33 +23,10 @@ public class DirectoryOrder {
             return;
         }
 
-        File[] archiveList = directory.listFiles();
-
-        if (archiveList != null) {
-            Arrays.sort(archiveList, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
-
-            BufferedWriter resultFile = new BufferedWriter(new FileWriter(resultPath));
-
-            System.out.println("Contents of " + directoryPath);
-            for (File file : archiveList) {
-
-                String indent = " ".repeat(0);
-                String type = file.isDirectory() ? "[D] " : "[F] ";
-                Date date = new Date(file.lastModified());
-
-
-                resultFile.write(indent + type + " - " + file.getName() + " - " + date + "\n");
-
-                if (file.isDirectory()) {
-                    listDirectoryRecursive(file, 1, resultFile);
-                }
-            }
-
-            resultFile.close();
-
-        } else {
-            System.out.println("The directory is empty or there was an error reading it!");
+        try (BufferedWriter resultFile = new BufferedWriter(new FileWriter(resultPath))) {
+            listDirectoryRecursive(directory, 0, resultFile);
         }
+        System.out.println("Directory contents, saved to " + resultPath);
     }
 
     private void listDirectoryRecursive(File file, int level, BufferedWriter resultFile) throws IOException {

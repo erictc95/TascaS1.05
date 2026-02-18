@@ -17,8 +17,8 @@ public class DirectoryOrderMain {
 
         /*
         Para ejecutar el programa por consola se necesita estos comandos
-        javac -d out src/main/java/level1/DirectoryOrder.java src/main/java/level1/DirectoryOrderMain.java
-        java -cp out level1.DirectoryOrderMain C:\Users\maxer\Desktop
+        javac -d out src/main/java/level1/exercise2/DirectoryOrder.java src/main/java/level1/exercise2/DirectoryOrderMain.java
+        java -cp out level1.exercise2.DirectoryOrderMain C:\Users\maxer\Desktop
          */
     }
 }
