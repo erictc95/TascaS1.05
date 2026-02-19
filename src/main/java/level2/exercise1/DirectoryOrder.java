@@ -1,21 +1,44 @@
 package level2.exercise1;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class DirectoryOrder {
     private final String directoryPath;
-    private static final String resultPath = "src/main/java/level1/exercise3/result.txt";
+    private final String resultPath;
 
-    public DirectoryOrder(String directoryPath) {
-        this.directoryPath = directoryPath;
+    public DirectoryOrder() throws FileNotFoundException {
+
+        Properties properties = new Properties();
+        try {
+            /*
+            El ejercicio pide hacerlo con FileInputStream pero entonces tienes que tener el config.properties
+            en la raiz del programa o poner esta ruta tan larga para encontrarlo, pero para proyectos grandes
+            no se recomienda porque la ruta es "Hardcoded"
+            */
+            properties.load(new FileInputStream("src/main/resources/config.properties"));
+
+            /*
+            Mejora ya que el archivo config.properties esta guardado en la carpeta Resources.
+            properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+            */
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        directoryPath = properties.getProperty("directory.path");
+        resultPath = properties.getProperty("result.file");
     }
 
+
     public void alphabeticDirectoryList() throws IOException {
+
+
         File directory = new File(directoryPath);
 
         if (!directory.exists() || !directory.isDirectory()) {
