@@ -15,10 +15,5 @@ public class DirectoryOrderMain {
         DirectoryOrder directoryOrder = new DirectoryOrder(path);
         directoryOrder.alphabeticDirectoryList();
 
-        /*
-        Para ejecutar el programa por consola se necesita estos comandos
-        javac -d out src/main/java/level1/exercise2/DirectoryOrder.java src/main/java/level1/exercise2/DirectoryOrderMain.java
-        java -cp out level1.exercise2.DirectoryOrderMain C:\Users\maxer\Desktop
-         */
     }
 }

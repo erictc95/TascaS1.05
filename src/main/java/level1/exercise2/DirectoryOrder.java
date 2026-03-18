@@ -20,45 +20,29 @@ public class DirectoryOrder {
             return;
         }
 
-        File[] archiveList = directory.listFiles();
-
-        if (archiveList != null) {
-            Arrays.sort(archiveList, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
-
-            System.out.println("Contents of " + directoryPath);
-            for (File file : archiveList) {
-
-                String indent = " ".repeat(0);
-                String type = file.isDirectory() ? "[D] " : "[F] ";
-                Date date = new Date(file.lastModified());
-                System.out.println(indent + type + " - " + file.getName() + " - " + date);
-
-                if (file.isDirectory()) {
-                    listDirectoryRecursive(file, 1);
-                }
-            }
-        } else {
-            System.out.println("The directory is empty or there was an error reading it!");
-        }
+        System.out.println("Contents of " + directoryPath);
+        listDirectory(directory, 0);
     }
 
-    private void listDirectoryRecursive(File file, int level) {
-        File[] archiveList = file.listFiles();
+    private void listDirectory(File directory, int level) {
+        File[] archiveList = directory.listFiles();
 
         if (archiveList == null) {
+            System.out.println("The directory is empty or there was an error reading it!");
             return;
         }
+
         Arrays.sort(archiveList, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
 
-        for (File file1 : archiveList) {
+        for (File file : archiveList) {
+            String indent = " ".repeat(level * 2);
+            String type = file.isDirectory() ? "[D] " : "[F] ";
+            Date date = new Date(file.lastModified());
 
-            String indent = " ".repeat(level);
-            String type = file1.isDirectory() ? "[D] " : "[F] ";
-            Date date = new Date(file1.lastModified());
-            System.out.println(indent + type + " - " + file1.getName() + " - " + date);
+            System.out.println(indent + type + " - " + file.getName() + " - " + date);
 
-            if (file1.isDirectory()) {
-                listDirectoryRecursive(file1, level + 1);
+            if (file.isDirectory()) {
+                listDirectory(file, level + 1);
             }
         }
     }
