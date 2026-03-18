@@ -16,10 +16,10 @@ public class CBCMain {
             File encryptedFile = new File("C:/Users/maxer/IdeaProjects/TascaS1.05/src/main/java/level3/exercise1/filestxt/encrypted_cbc.txt");
             File decryptedFile = new File("C:/Users/maxer/IdeaProjects/TascaS1.05/src/main/java/level3/exercise1/filestxt/decrypted_cbc.txt");
 
-            fileEncryptor.encryptedFile(secretKey, inputFile, encryptedFile);
+            fileEncryptor.encryptedFileCBC(secretKey, inputFile, encryptedFile);
             System.out.println("File Encrypted (CBC)!");
 
-            fileEncryptor.decryptedFile(secretKey, encryptedFile, decryptedFile);
+            fileEncryptor.decryptedFileCBC(secretKey, encryptedFile, decryptedFile);
             System.out.println("File Decrypted (CBC)!");
 
         } catch (Exception e) {

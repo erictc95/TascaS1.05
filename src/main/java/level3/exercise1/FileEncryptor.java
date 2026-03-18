@@ -3,6 +3,7 @@ package level3.exercise1;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +30,7 @@ public class FileEncryptor {
     }
 
 
-    public void encryptedFile(SecretKey key, File input, File output) throws Exception {
+    public void encryptedFileECB(SecretKey key, File input, File output) throws Exception {
         Cipher cipher = Cipher.getInstance(AES_ECB);
         cipher.init(Cipher.ENCRYPT_MODE, key);
 
@@ -46,7 +47,7 @@ public class FileEncryptor {
     }
 
 
-    public void decryptedFile(SecretKey key, File input, File output) throws Exception {
+    public void decryptedFileECB(SecretKey key, File input, File output) throws Exception {
         Cipher cipher = Cipher.getInstance(AES_ECB);
         cipher.init(Cipher.DECRYPT_MODE, key);
 
@@ -65,6 +66,55 @@ public class FileEncryptor {
             try (FileOutputStream fos = new FileOutputStream(output)) {
                 fos.write(decryptedBytes);
             }
+        }
+    }
+
+    public void encryptedFileCBC(SecretKey key, File input, File output) throws Exception {
+        Cipher cipher = Cipher.getInstance(AES_CBC);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+
+        byte[] iv = cipher.getIV();
+
+        try (FileInputStream fis = new FileInputStream(input);
+             FileOutputStream fos = new FileOutputStream(output)) {
+
+            fos.write(iv);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                byte[] encryptedBytes = cipher.update(buffer, 0, bytesRead);
+                if (encryptedBytes != null) fos.write(encryptedBytes);
+            }
+
+            byte[] finalBytes = cipher.doFinal();
+            if (finalBytes != null) fos.write(finalBytes);
+        }
+    }
+
+    public void decryptedFileCBC(SecretKey key, File input, File output) throws Exception {
+        Cipher cipher = Cipher.getInstance(AES_CBC);
+
+        try (FileInputStream fis = new FileInputStream(input);
+             FileOutputStream fos = new FileOutputStream(output)) {
+
+            byte[] iv = new byte[16];
+            fis.read(iv);
+
+            IvParameterSpec ivSpec = new IvParameterSpec(iv);
+            cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                byte[] decryptedBytes = cipher.update(buffer, 0, bytesRead);
+                if (decryptedBytes != null) fos.write(decryptedBytes);
+            }
+
+            byte[] finalBytes = cipher.doFinal();
+            if (finalBytes != null) fos.write(finalBytes);
         }
     }
 }

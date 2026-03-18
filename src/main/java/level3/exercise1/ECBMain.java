@@ -16,10 +16,10 @@ public class ECBMain {
             File encryptedFile = new File("C:/Users/maxer/IdeaProjects/TascaS1.05/src/main/java/level3/exercise1/filestxt/encrypted_ecb.txt");
             File decryptedFile = new File("C:/Users/maxer/IdeaProjects/TascaS1.05/src/main/java/level3/exercise1/filestxt/decrypted_ecb.txt");
 
-            fileEncryptor.encryptedFile(key, inputFile, encryptedFile);
+            fileEncryptor.encryptedFileECB(key, inputFile, encryptedFile);
             System.out.println("File Encrypted (ECB)!");
 
-            fileEncryptor.decryptedFile(key, encryptedFile, decryptedFile);
+            fileEncryptor.decryptedFileECB(key, encryptedFile, decryptedFile);
             System.out.println("File Decrypted (ECB)!");
         } catch (Exception e) {
             e.printStackTrace();
