@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class DirectoryOrder {
     private final String directoryPath;
-    private static final String resultPath = "src/main/java/level1/exercise3/result.txt";
+    private static final String resultPath = System.getProperty("user.dir") + File.separator + "result.txt";
 
     public DirectoryOrder(String directoryPath) {
         this.directoryPath = directoryPath;
@@ -23,10 +23,18 @@ public class DirectoryOrder {
             return;
         }
 
-        try (BufferedWriter resultFile = new BufferedWriter(new FileWriter(resultPath))) {
+        File outputDir = new File("output");
+        if (!outputDir.exists()) {
+            outputDir.mkdirs();
+        }
+
+
+        File resultFilePath = new File(outputDir, "result.txt");
+
+        try (BufferedWriter resultFile = new BufferedWriter(new FileWriter(resultFilePath))) {
             listDirectoryRecursive(directory, 0, resultFile);
         }
-        System.out.println("Directory contents, saved to " + resultPath);
+        System.out.println("Directory contents, saved to " + resultFilePath);
     }
 
     private void listDirectoryRecursive(File file, int level, BufferedWriter resultFile) throws IOException {
@@ -39,7 +47,7 @@ public class DirectoryOrder {
 
         for (File file1 : archiveList) {
 
-            String indent = " ".repeat(level);
+            String indent = "  ".repeat(level);
             String type = file1.isDirectory() ? "[D] " : "[F] ";
             Date date = new Date(file1.lastModified());
             resultFile.write(indent + type + " - " + file1.getName() + " - " + date + "\n");
