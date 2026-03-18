@@ -15,17 +15,8 @@ public class DirectoryOrder {
 
         Properties properties = new Properties();
         try {
-            /*
-            El ejercicio pide hacerlo con FileInputStream pero entonces tienes que tener el config.properties
-            en la raiz del programa o poner esta ruta tan larga para encontrarlo, pero para proyectos grandes
-            no se recomienda porque la ruta es "Hardcoded"
-            */
-            properties.load(new FileInputStream("src/main/resources/config.properties"));
 
-            /*
-            Mejora ya que el archivo config.properties esta guardado en la carpeta Resources.
-            properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
-            */
+            properties.load(new FileInputStream("src/main/resources/config.properties"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
